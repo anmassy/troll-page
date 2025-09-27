@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>SYSTEM BREACH DETECTED</title>
+	<style>
+		body {
+			background: #000;
+			color: #00ff00;
+			font-family: 'Courier New', monospace;
+			margin: 0;
+			padding: 20px;
+			overflow: hidden;
+		}
+		
+		.terminal {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 20px;
+			border: 2px solid #00ff00;
+			border-radius: 10px;
+			background: rgba(0, 255, 0, 0.1);
+		}
+		
+		.blink {
+			animation: blink 1s infinite;
+		}
+		
+		@keyframes blink {
+			0%, 50% { opacity: 1; }
+			51%, 100% { opacity: 0; }
+		}
+		
+		.loading {
+			display: inline-block;
+			animation: loading 2s infinite;
+		}
+		
+		@keyframes loading {
+			0% { content: ""; }
+			25% { content: "."; }
+			50% { content: ".."; }
+			75% { content: "..."; }
+			100% { content: ""; }
+		}
+		
+		.reveal {
+			display: none;
+			animation: fadeIn 3s forwards;
+		}
+		
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to { opacity: 1; display: block; }
+		}
+	</style>
+</head>
+<body>
+	<div class="terminal">
+		<h1 class="blink">⚠️ SECURITY ALERT ⚠️</h1>
+		<p>UNAUTHORIZED ACCESS DETECTED</p>
+		<hr style="border-color: #00ff00;">
+		
+		<p>🔍 Analyzing target<span class="loading"></span></p>
+		<p>📍 IP Address: <span id="ip" style="color: #ff0000;">Scanning...</span></p>
+		<p>🌐 Browser: <span id="browser" style="color: #ff0000;"></span></p>
+		<p>💻 OS: <span id="os" style="color: #ff0000;"></span></p>
+		<p>📊 Screen: <span id="screen" style="color: #ff0000;"></span></p>
+		<p>🕐 Time: <span id="time" style="color: #ff0000;"></span></p>
+		
+		<br>
+		<p class="blink" style="color: #ff0000;">INTRUSION LOGGED...</p>
+		<p>AUTHORITIES HAVE BEEN NOTIFIED</p>
+		
+		<div id="reveal" class="reveal">
+			<hr style="border-color: #00ff00;">
+			<h2>😄 GOTCHA!</h2>
+			<p>Just kidding! Thanks for visiting my GitHub profile!</p>
+			<p>Hope you enjoyed this little hack simulation 🤖</p>
+			<a href="https://github.com/TON_USERNAME" style="color: #00ff00;">← Back to Profile</a>
+		</div>
+	</div>
+
+	<script>
+		// Récupère les infos du navigateur
+		document.getElementById('browser').textContent = navigator.userAgent.split(' ').pop();
+		document.getElementById('os').textContent = navigator.platform;
+		document.getElementById('screen').textContent = screen.width + 'x' + screen.height;
+		document.getElementById('time').textContent = new Date().toLocaleString();
+		
+		// Récupère l'IP via API
+		fetch('https://api.ipify.org?format=json')
+			.then(response => response.json())
+			.then(data => {
+				document.getElementById('ip').textContent = data.ip;
+			})
+			.catch(() => {
+				document.getElementById('ip').textContent = 'Hidden by VPN 😎';
+			});
+		
+		// Révèle le message après 5 secondes
+		setTimeout(() => {
+			document.getElementById('reveal').style.display = 'block';
+		}, 5000);
+	</script>
+</body>
+</html>
