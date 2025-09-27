@@ -63,11 +63,16 @@
 		<hr style="border-color: #00ff00;">
 		
 		<p>🔍 Analyzing target<span class="loading"></span></p>
-		<p>📍 IP Address: <span id="ip" style="color: #ff0000;">Scanning...</span></p>
-		<p>🌐 Browser: <span id="browser" style="color: #ff0000;"></span></p>
+		<p>� User: <span id="username" style="color: #ff0000;">Identifying...</span></p>
+		<p>�📍 IP Address: <span id="ip" style="color: #ff0000;">Scanning...</span></p>
+		<p>� Location: <span id="location" style="color: #ff0000;">Triangulating...</span></p>
+		<p>�🌐 Browser: <span id="browser" style="color: #ff0000;"></span></p>
 		<p>💻 OS: <span id="os" style="color: #ff0000;"></span></p>
 		<p>📊 Screen: <span id="screen" style="color: #ff0000;"></span></p>
-		<p>🕐 Time: <span id="time" style="color: #ff0000;"></span></p>
+		<p>� Battery: <span id="battery" style="color: #ff0000;">Checking...</span></p>
+		<p>🌐 Connection: <span id="connection" style="color: #ff0000;">Probing...</span></p>
+		<p>�🕐 Local Time: <span id="time" style="color: #ff0000;"></span></p>
+		<p>🌍 Timezone: <span id="timezone" style="color: #ff0000;"></span></p>
 		
 		<br>
 		<p class="blink" style="color: #ff0000;">INTRUSION LOGGED...</p>
@@ -88,21 +93,68 @@
 		document.getElementById('os').textContent = navigator.platform;
 		document.getElementById('screen').textContent = screen.width + 'x' + screen.height;
 		document.getElementById('time').textContent = new Date().toLocaleString();
+		document.getElementById('timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
 		
-		// Récupère l'IP via API
+		// Récupère des infos système avancées
+		if (navigator.getBattery) {
+			navigator.getBattery().then(function(battery) {
+				document.getElementById('battery').textContent = Math.round(battery.level * 100) + '%';
+			}).catch(() => {
+				document.getElementById('battery').textContent = 'Desktop detected';
+			});
+		} else {
+			document.getElementById('battery').textContent = 'Access denied';
+		}
+		
+		// Récupère le type de connexion
+		if (navigator.connection) {
+			const conn = navigator.connection;
+			document.getElementById('connection').textContent = conn.effectiveType || conn.type || 'Unknown';
+		} else {
+			document.getElementById('connection').textContent = 'High-speed detected';
+		}
+		
+		// Tente de récupérer le nom d'utilisateur (via GitHub si on vient du profil)
+		const referrer = document.referrer;
+		if (referrer.includes('github.com/anmassy')) {
+			document.getElementById('username').textContent = 'GitHub visitor from anmassy profile';
+		} else if (referrer.includes('github.com')) {
+			const match = referrer.match(/github\.com\/([^\/]+)/);
+			if (match) {
+				document.getElementById('username').textContent = 'GitHub user: ' + match[1];
+			} else {
+				document.getElementById('username').textContent = 'Anonymous GitHub user';
+			}
+		} else {
+			document.getElementById('username').textContent = 'Anonymous visitor';
+		}
+		
+		// Récupère l'IP et la géolocalisation
 		fetch('https://api.ipify.org?format=json')
 			.then(response => response.json())
 			.then(data => {
 				document.getElementById('ip').textContent = data.ip;
+				// Récupère la localisation approximative
+				return fetch(`https://ipapi.co/${data.ip}/json/`);
+			})
+			.then(response => response.json())
+			.then(locationData => {
+				if (locationData.city && locationData.country) {
+					document.getElementById('location').textContent = 
+						locationData.city + ', ' + locationData.country;
+				} else {
+					document.getElementById('location').textContent = 'Location masked';
+				}
 			})
 			.catch(() => {
 				document.getElementById('ip').textContent = 'Hidden by VPN 😎';
+				document.getElementById('location').textContent = 'Location blocked';
 			});
 		
-		// Révèle le message après 5 secondes
+		// Révèle le message après 7 secondes (plus de temps pour charger toutes les infos)
 		setTimeout(() => {
 			document.getElementById('reveal').style.display = 'block';
-		}, 5000);
+		}, 7000);
 	</script>
 </body>
 </html>
