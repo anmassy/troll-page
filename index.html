@@ -1,160 +1,758 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>SYSTEM BREACH DETECTED</title>
-	<style>
-		body {
-			background: #000;
-			color: #00ff00;
-			font-family: 'Courier New', monospace;
-			margin: 0;
-			padding: 20px;
-			overflow: hidden;
-		}
-		
-		.terminal {
-			max-width: 800px;
-			margin: 0 auto;
-			padding: 20px;
-			border: 2px solid #00ff00;
-			border-radius: 10px;
-			background: rgba(0, 255, 0, 0.1);
-		}
-		
-		.blink {
-			animation: blink 1s infinite;
-		}
-		
-		@keyframes blink {
-			0%, 50% { opacity: 1; }
-			51%, 100% { opacity: 0; }
-		}
-		
-		.loading {
-			display: inline-block;
-			animation: loading 2s infinite;
-		}
-		
-		@keyframes loading {
-			0% { content: ""; }
-			25% { content: "."; }
-			50% { content: ".."; }
-			75% { content: "..."; }
-			100% { content: ""; }
-		}
-		
-		.reveal {
-			display: none;
-			animation: fadeIn 3s forwards;
-		}
-		
-		@keyframes fadeIn {
-			from { opacity: 0; }
-			to { opacity: 1; display: block; }
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👁️ Access Granted - Profile Analysis</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 40px 0;
+            position: relative;
+        }
+        
+        /* Subtle animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(34, 197, 94, 0.08) 0%, transparent 50%);
+            z-index: -1;
+            animation: subtleFloat 20s ease-in-out infinite;
+        }
+        
+        @keyframes subtleFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(1deg); }
+        }
+        
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(56, 189, 248, 0.4);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+        
+        /* Welcome header */
+        .welcome-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            z-index: 1000;
+            text-align: center;
+        }
+        
+        .welcome-text {
+            font-size: 1.2em;
+            font-weight: 600;
+            background: linear-gradient(135deg, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .user-info {
+            font-size: 0.9em;
+            color: #94a3b8;
+            margin-top: 5px;
+        }
+        
+        /* Main container */
+        .container {
+            max-width: 900px;
+            width: 90%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            margin: 80px auto 0;
+        }
+        
+        /* Glassmorphism card */
+        .analysis-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 60px 40px;
+            box-shadow: 
+                0 25px 45px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .analysis-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Header */
+        .header {
+            margin-bottom: 40px;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .main-title {
+            font-size: 2.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .subtitle {
+            font-size: 1.2em;
+            color: #94a3b8;
+            font-weight: 400;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+        
+        /* Analysis section */
+        .analysis-section {
+            margin: 40px 0;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        .progress-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+            color: #cbd5e1;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            border-radius: 3px;
+            width: 0%;
+            animation: progressFill 2s ease-out forwards;
+            position: relative;
+        }
+        
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 2s ease-out infinite;
+        }
+        
+        @keyframes progressFill {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+        
+        @keyframes progressShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        /* Data display */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .data-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out calc(0.9s + var(--delay)) both;
+        }
+        
+        .data-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .data-label {
+            font-size: 0.85em;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .data-value {
+            font-size: 1.1em;
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+        
+        /* Reveal section */
+        .reveal-section {
+            margin-top: 50px;
+            opacity: 0;
+            animation: revealFade 1s ease-out 4s both;
+        }
+        
+        .reveal-card {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .reveal-title {
+            font-size: 1.8em;
+            color: #22c55e;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .reveal-text {
+            font-size: 1.1em;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 16px;
+            font-weight: 500;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes revealFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Loading states */
+        .loading-text {
+            position: relative;
+        }
+        
+        .loading-text::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0% { content: ''; }
+            25% { content: '.'; }
+            50% { content: '..'; }
+            75% { content: '...'; }
+            100% { content: ''; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .analysis-card {
+                padding: 40px 20px;
+            }
+            
+            .main-title {
+                font-size: 2em;
+            }
+            
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-	<div class="terminal">
-		<h1 class="blink">⚠️ SECURITY ALERT ⚠️</h1>
-		<p>UNAUTHORIZED ACCESS DETECTED</p>
-		<hr style="border-color: #00ff00;">
-		
-		<p>🔍 Analyzing target<span class="loading"></span></p>
-		<p>� User: <span id="username" style="color: #ff0000;">Identifying...</span></p>
-		<p>�📍 IP Address: <span id="ip" style="color: #ff0000;">Scanning...</span></p>
-		<p>� Location: <span id="location" style="color: #ff0000;">Triangulating...</span></p>
-		<p>�🌐 Browser: <span id="browser" style="color: #ff0000;"></span></p>
-		<p>💻 OS: <span id="os" style="color: #ff0000;"></span></p>
-		<p>📊 Screen: <span id="screen" style="color: #ff0000;"></span></p>
-		<p>� Battery: <span id="battery" style="color: #ff0000;">Checking...</span></p>
-		<p>🌐 Connection: <span id="connection" style="color: #ff0000;">Probing...</span></p>
-		<p>�🕐 Local Time: <span id="time" style="color: #ff0000;"></span></p>
-		<p>🌍 Timezone: <span id="timezone" style="color: #ff0000;"></span></p>
-		
-		<br>
-		<p class="blink" style="color: #ff0000;">INTRUSION LOGGED...</p>
-		<p>AUTHORITIES HAVE BEEN NOTIFIED</p>
-		
-		<div id="reveal" class="reveal">
-			<hr style="border-color: #00ff00;">
-			<h2>😄 GOTCHA!</h2>
-			<p>Just kidding! Thanks for visiting my GitHub profile!</p>
-			<p>Hope you enjoyed this little hack simulation 🤖</p>
-			<a href="https://github.com/anmassy" style="color: #00ff00;">← Back to Profile</a>
-		</div>
-	</div>
-
-	<script>
-		// Récupère les infos du navigateur
-		document.getElementById('browser').textContent = navigator.userAgent.split(' ').pop();
-		document.getElementById('os').textContent = navigator.platform;
-		document.getElementById('screen').textContent = screen.width + 'x' + screen.height;
-		document.getElementById('time').textContent = new Date().toLocaleString();
-		document.getElementById('timezone').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
-		
-		// Récupère des infos système avancées
-		if (navigator.getBattery) {
-			navigator.getBattery().then(function(battery) {
-				document.getElementById('battery').textContent = Math.round(battery.level * 100) + '%';
-			}).catch(() => {
-				document.getElementById('battery').textContent = 'Desktop detected';
-			});
-		} else {
-			document.getElementById('battery').textContent = 'Access denied';
-		}
-		
-		// Récupère le type de connexion
-		if (navigator.connection) {
-			const conn = navigator.connection;
-			document.getElementById('connection').textContent = conn.effectiveType || conn.type || 'Unknown';
-		} else {
-			document.getElementById('connection').textContent = 'High-speed detected';
-		}
-		
-		// Tente de récupérer le nom d'utilisateur (via GitHub si on vient du profil)
-		const referrer = document.referrer;
-		if (referrer.includes('github.com/anmassy')) {
-			document.getElementById('username').textContent = 'GitHub visitor from anmassy profile';
-		} else if (referrer.includes('github.com')) {
-			const match = referrer.match(/github\.com\/([^\/]+)/);
-			if (match) {
-				document.getElementById('username').textContent = 'GitHub user: ' + match[1];
-			} else {
-				document.getElementById('username').textContent = 'Anonymous GitHub user';
-			}
-		} else {
-			document.getElementById('username').textContent = 'Anonymous visitor';
-		}
-		
-		// Récupère l'IP et la géolocalisation
-		fetch('https://api.ipify.org?format=json')
-			.then(response => response.json())
-			.then(data => {
-				document.getElementById('ip').textContent = data.ip;
-				// Récupère la localisation approximative
-				return fetch(`https://ipapi.co/${data.ip}/json/`);
-			})
-			.then(response => response.json())
-			.then(locationData => {
-				if (locationData.city && locationData.country) {
-					document.getElementById('location').textContent = 
-						locationData.city + ', ' + locationData.country;
-				} else {
-					document.getElementById('location').textContent = 'Location masked';
-				}
-			})
-			.catch(() => {
-				document.getElementById('ip').textContent = 'Hidden by VPN 😎';
-				document.getElementById('location').textContent = 'Location blocked';
-			});
-		
-		// Révèle le message après 7 secondes (plus de temps pour charger toutes les infos)
-		setTimeout(() => {
-			document.getElementById('reveal').style.display = 'block';
-		}, 7000);
-	</script>
+    <!-- Welcome header with immediate info display -->
+    <div class="welcome-header">
+        <div class="welcome-text" id="welcomeText">
+            👁️ Welcome, Visitor
+        </div>
+        <div class="user-info" id="userInfo">
+            Analyzing your digital footprint...
+        </div>
+    </div>
+    
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="analysis-card">
+            <div class="header">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>Connection Established</span>
+                </div>
+                <h1 class="main-title">Profile Analysis Complete</h1>
+                <p class="subtitle">Visitor identification and security assessment</p>
+            </div>
+            
+            <div class="analysis-section">
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>🔍 Analyzing visitor profile</span>
+                        <span id="progress1">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="animation-delay: 0.5s;"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>🌐 Gathering network information</span>
+                        <span id="progress2">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="animation-delay: 1s;"></div>
+                    </div>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-label">
+                        <span>🔒 Security evaluation</span>
+                        <span id="progress3">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="animation-delay: 1.5s;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-grid">
+                <div class="data-item" style="--delay: 0s;">
+                    <div class="data-label">IP Address</div>
+                    <div class="data-value" id="ip">
+                        <span class="loading-text">Detecting</span>
+                    </div>
+                </div>
+                <div class="data-item" style="--delay: 0.1s;">
+                    <div class="data-label">Location</div>
+                    <div class="data-value" id="location">
+                        <span class="loading-text">Locating</span>
+                    </div>
+                </div>
+                <div class="data-item" style="--delay: 0.2s;">
+                    <div class="data-label">Browser</div>
+                    <div class="data-value" id="browser">
+                        <span class="loading-text">Identifying</span>
+                    </div>
+                </div>
+                <div class="data-item" style="--delay: 0.3s;">
+                    <div class="data-label">Device</div>
+                    <div class="data-value" id="device">
+                        <span class="loading-text">Scanning</span>
+                    </div>
+                </div>
+                <div class="data-item" style="--delay: 0.4s;">
+                    <div class="data-label">Screen</div>
+                    <div class="data-value" id="screen">
+                        <span class="loading-text">Measuring</span>
+                    </div>
+                </div>
+                <div class="data-item" style="--delay: 0.5s;">
+                    <div class="data-label">Time Zone</div>
+                    <div class="data-value" id="timezone">
+                        <span class="loading-text">Calculating</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reveal-section">
+                <div class="reveal-card">
+                    <h2 class="reveal-title">🎯 Analysis Complete!</h2>
+                    <p class="reveal-text">
+                        Just kidding! This was a friendly demonstration of digital fingerprinting. 
+                        Your data is safe and no actual "hacking" occurred.
+                    </p>
+                    <p class="reveal-text">
+                        This showcase demonstrates how much information websites can gather 
+                        from visitors - all completely legal and standard practice.
+                    </p>
+                </div>
+                
+                <div class="button-group">
+                    <a href="explanation.html" class="btn btn-primary">
+                        🤝 Learn More
+                    </a>
+                    <a href="cybersecurity-lesson.html" class="btn btn-accent">
+                        🛡️ Cybersecurity Tips
+                    </a>
+                    <a href="https://github.com/anmassy" class="btn btn-secondary">
+                        🏠 GitHub Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.width = Math.random() * 4 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Progress animation
+        function animateProgress() {
+            const progressElements = ['progress1', 'progress2', 'progress3'];
+            
+            progressElements.forEach((id, index) => {
+                setTimeout(() => {
+                    let progress = 0;
+                    const element = document.getElementById(id);
+                    const interval = setInterval(() => {
+                        progress += Math.random() * 15;
+                        if (progress >= 100) {
+                            progress = 100;
+                            clearInterval(interval);
+                        }
+                        element.textContent = Math.round(progress) + '%';
+                    }, 100);
+                }, index * 500 + 1000);
+            });
+        }
+        
+        // Update welcome header immediately
+        function updateWelcomeHeader() {
+            // Try to get user name from various sources
+            let userName = 'Unknown Visitor';
+            let source = '';
+            
+            // Check if coming from GitHub
+            const referrer = document.referrer;
+            if (referrer.includes('github.com/')) {
+                const match = referrer.match(/github\.com\/([^\/]+)/);
+                if (match && match[1] !== 'anmassy') {
+                    userName = match[1];
+                    source = ' (from GitHub)';
+                } else if (match && match[1] === 'anmassy') {
+                    userName = 'GitHub Visitor';
+                    source = ' (from my profile)';
+                }
+            }
+            
+            // Try to detect from user agent patterns
+            const userAgentLower = navigator.userAgent.toLowerCase();
+            if (userAgentLower.includes('bot') || userAgentLower.includes('crawler')) {
+                userName = 'Web Crawler';
+                source = ' (automated)';
+            }
+            
+            // Check local storage for previous visits
+            const previousVisit = localStorage.getItem('visitor_name');
+            if (previousVisit && userName === 'Unknown Visitor') {
+                userName = previousVisit;
+                source = ' (returning)';
+            }
+            
+            // Random "hacker-style" names for unknown visitors
+            if (userName === 'Unknown Visitor') {
+                const randomNames = ['Target-Alpha', 'User-7834', 'Guest-Node', 'Visitor-X', 'Unknown-Entity'];
+                userName = randomNames[Math.floor(Math.random() * randomNames.length)];
+                source = ' (classified)';
+            }
+            
+            // Update immediately
+            document.getElementById('welcomeText').textContent = `👁️ Welcome, ${userName}${source}`;
+            
+            // Show basic info immediately
+            const userAgentString = navigator.userAgent;
+            const platform = navigator.platform;
+            const browser = userAgentString.includes('Chrome') ? 'Chrome' : 
+                           userAgentString.includes('Firefox') ? 'Firefox' : 
+                           userAgentString.includes('Safari') ? 'Safari' : 'Unknown';
+            
+            document.getElementById('userInfo').innerHTML = 
+                `${browser} on ${platform} • Screen: ${screen.width}×${screen.height}`;
+                
+            // Store visit for next time
+            if (!localStorage.getItem('visitor_name') && userName !== 'Unknown Visitor') {
+                localStorage.setItem('visitor_name', userName);
+            }
+        }
+        
+        // Collect visitor data
+        function collectVisitorData() {
+            // Update welcome header first
+            updateWelcomeHeader();
+            
+            // IP Address
+            setTimeout(() => {
+                fetch('https://api.ipify.org?format=json')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('ip').textContent = data.ip;
+                        
+                        // Update welcome header with IP
+                        const currentInfo = document.getElementById('userInfo').innerHTML;
+                        document.getElementById('userInfo').innerHTML = 
+                            currentInfo + ` • IP: ${data.ip}`;
+                        
+                        // Get location data
+                        return fetch(`https://ipapi.co/${data.ip}/json/`);
+                    })
+                    .then(response => response.json())
+                    .then(locationData => {
+                        if (locationData.city && locationData.country) {
+                            document.getElementById('location').textContent = 
+                                `${locationData.city}, ${locationData.country}`;
+                                
+                            // Update welcome header with location
+                            const currentInfo = document.getElementById('userInfo').innerHTML;
+                            document.getElementById('userInfo').innerHTML = 
+                                currentInfo + ` • ${locationData.city}, ${locationData.country}`;
+                        } else {
+                            document.getElementById('location').textContent = 'Location hidden';
+                        }
+                    })
+                    .catch(() => {
+                        document.getElementById('ip').textContent = 'Hidden by VPN 🛡️';
+                        document.getElementById('location').textContent = 'Protected';
+                        
+                        // Update welcome header
+                        const currentInfo = document.getElementById('userInfo').innerHTML;
+                        document.getElementById('userInfo').innerHTML = 
+                            currentInfo + ' • IP: Protected by VPN 🛡️';
+                    });
+            }, 1000);
+            
+            // Browser
+            setTimeout(() => {
+                const browser = navigator.userAgent.split(' ').pop();
+                document.getElementById('browser').textContent = browser.split('/')[0];
+            }, 2500);
+            
+            // Device
+            setTimeout(() => {
+                const platform = navigator.platform;
+                document.getElementById('device').textContent = platform;
+            }, 3000);
+            
+            // Screen
+            setTimeout(() => {
+                document.getElementById('screen').textContent = 
+                    `${screen.width}×${screen.height}`;
+            }, 3500);
+            
+            // Timezone
+            setTimeout(() => {
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                document.getElementById('timezone').textContent = timezone;
+            }, 4000);
+        }
+        
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            animateProgress();
+            collectVisitorData();
+        });
+        
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
